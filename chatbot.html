@@ -114,10 +114,9 @@
 
     <script>
         // API Configuration - GANTI DENGAN API KEY ANDA
-        const API_KEY = "AIzaSyCsl_doHoUvVtf7QjjWYGIMF-LY8PjhTFA";
-const API_URL =
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY;
-
+        // Gunakan Vercel serverless function
+const API_URL = "https://toko-lumintu-chatbot-ai.vercel.app/api/gemini";
+// Ganti URL dengan URL Vercel Anda yang sebenarnya!
         // Load data toko dari localStorage
         const tokoData = {
             nama: 'Toko Lumintu',
@@ -272,21 +271,22 @@ PERTANYAAN USER: "${userMessage}"
 Jawab dengan ramah, informatif, dan sesuai konteks pertanyaan!`;
 
             try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: systemPrompt
-                            }]
-                        }]
-                    })
-                });
+        // ✅ Kirim ke Vercel function (BUKAN ke Gemini langsung)
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: systemPrompt
+                    }]
+                }]
+            })
+        });
 
-                const data = await response.json();
+        const data = await response.json();
 
                 if (data.candidates && data.candidates[0]) {
                     const reply = data.candidates[0].content.parts[0].text;
